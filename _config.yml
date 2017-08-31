@@ -5,7 +5,7 @@ header-img: img/home-bg.jpg
 email: huxpro@gmail.com
 description: "关于前端与设计、黑客与画家 | 吴思怡，Web & Mobile Lover，Front-End Engineer，UX Designer | 这里是 @Hayden 的个人博客，与你一起发现更大的世界。"
 keyword: "吴思怡, H哎呀的呢, Hayden, 鬼栈, huxpro, @huxpro, 吴思怡的博客, Hayden Blog, 博客, 个人网站, 互联网, 前端, 设计, 产品"
-url: "http://haydenwoo.com"              # your host, for absolute URL
+url: "http://haydenwoo.top"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 
