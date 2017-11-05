@@ -10,7 +10,7 @@
     <meta name="keywords"  content="吴思怡, H哎呀的呢, Hayden, 鬼栈, huxpro, @huxpro, 吴思怡的博客, Hayden Blog, 博客, 个人网站, 互联网, 前端, 设计, 产品">
     <meta name="theme-color" content="#000000">
     
-    <title>深入浅出apply、cal - 吴思怡的博客 | Wu Si Yi Blog</title>
+    <title>深入浅出apply、call - 吴思怡的博客 | Wu Si Yi Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -186,7 +186,7 @@
                         <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
                         
                     </div>
-                    <h1>深入浅出apply、cal</h1>
+                    <h1>深入浅出apply、call</h1>
                     
                     
                     <h2 class="subheading">apply and call</h2>
@@ -295,16 +295,22 @@
 <p>得出的结果都是一样的，都是6，看完了基本使用再来总结一下区别，apply只能接受两个参数，其中第二个参数必须是一个数组或者类数组，call则可以接受多个参数，这就是两个方法很重要的一个区别。</p>
 
 <p><strong>最后来说说怎么用call来实现对象继承</strong></p>
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">parents</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">'Hayden'</span><span class="p">;</span>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">parents</span> <span class="p">()</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="mi">22</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">func</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">age</span><span class="p">);</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kd">var</span> <span class="nx">child</span> <span class="o">=</span> <span class="p">{};</span>
-<span class="nx">parents</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">child</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">child</span><span class="p">);</span> <span class="c1">// {name: 'Hayden', age: 22}</span>
+<span class="kd">function</span> <span class="nx">child</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">parents</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">func</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="nx">child</span><span class="p">();</span> <span class="c1">// 22</span>
 </code></pre>
 </div>
+
+<p>child通过call方法，继承了parents的age变量和func方法，同时还可以扩展自己其他的方法。</p>
 
 
                 <hr style="visibility: hidden;">

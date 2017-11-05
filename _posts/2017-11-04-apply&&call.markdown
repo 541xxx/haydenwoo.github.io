@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "深入浅出apply、cal"
+title:      "深入浅出apply、call"
 subtitle:   "apply and call"
 date:       2017-11-03 12:00:00 
 author:     "Hayden"
@@ -94,12 +94,18 @@ func.apply(obj, 1,2,3);
 
 **最后来说说怎么用call来实现对象继承**
 ```js
-var parents = function() {
-  this.name = 'Hayden';
+function parents () {
   this.age = 22;
+  this.func = function () {
+    console.log(this.age);
+  }
 }
 
-var child = {};
-parents.call(child);
-console.log(child); // {name: 'Hayden', age: 22}
+function child() {
+  parents.call(this);
+  this.func();
+}
+child(); // 22
 ```
+
+child通过call方法，继承了parents的age变量和func方法，同时还可以扩展自己其他的方法。
