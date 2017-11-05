@@ -5,9 +5,119 @@
     <description>关于前端与设计、黑客与画家 | 吴思怡，Web &amp; Mobile Lover，Front-End Engineer，UX Designer | 这里是 @Hayden 的个人博客，与你一起发现更大的世界。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 31 Aug 2017 18:02:09 +0800</pubDate>
-    <lastBuildDate>Thu, 31 Aug 2017 18:02:09 +0800</lastBuildDate>
+    <pubDate>Sun, 05 Nov 2017 09:22:17 +0800</pubDate>
+    <lastBuildDate>Sun, 05 Nov 2017 09:22:17 +0800</lastBuildDate>
     <generator>Jekyll v3.5.1</generator>
+    
+      <item>
+        <title>深入浅出apply、cal</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;网上关于这几个属性的文章真是数不胜数，以至于我每次使用都已经养成了习惯去查阅相关博客内容，几乎每次要用的时候对这几个东西的意识都会有点朦胧，所以还是整理一下吧&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;applycall&quot;&gt;apply、call&lt;/h2&gt;
+
+&lt;p&gt;JavaScript函数存在「定义时上下文」和「运行时上下文」以及「上下文是可以改变的」这样的概念。&lt;/p&gt;
+
+&lt;p&gt;在javascript中，这两个属性都是为了改变函数内部this指向问题而存在的。&lt;/p&gt;
+
+&lt;p&gt;引用知乎上一个大牛的回答&lt;/p&gt;
+
+&lt;p&gt;在javascript OOP(面向对象) 中，我们总是会这样定义&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;cat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;prototype&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;food&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'fish'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;say&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'I love'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;food&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;blackCat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;blackCat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;say&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;但是如果我们有一个对象whiteDog= {food : “bone”} ,我们不想对它重新定义 say 方法，那么我们可以通过 call 或 apply 用 cat 的 say 方法：&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;whiteDog&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;food&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'bone'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;blackCat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;say&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;whiteDog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;当一个object下没有某个方法，但是其他的有，我们就可以通过apply 和 call用其他对象的方法来操作，说说前段时间犯的一个小错误&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;childs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelectorAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.item'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; 
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;childs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 假设长度是是3&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;childs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//直接报错 TypeError: b.forEach is not a function&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;为什么会报错呢？当时太年轻还不知道有伪数组这一说，殊不知上面获取的看似是数组的玩意儿只有数组里面的length这一个属性，其他的比如push、 pop、shift 一概没有然后就有了下面的写法&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;childs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;prototype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;slice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;childs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 让childs可以用Array里的的所有方法&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;这样再forEach就不会报错了&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;apply 和 call 的区别&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;两者的作用完全一样，只是接受参数的方式不太一样。例如，有一个函数&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;call&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;fun.call(thisArg, arg1, arg2, …)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;obj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;apply&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;fun.apply(thisArg, [argsArray])&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;obj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;得出的结果都是一样的，都是6，看完了基本使用再来总结一下区别，apply只能接受两个参数，其中第二个参数必须是一个数组或者类数组，call则可以接受多个参数，这就是两个方法很重要的一个区别。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;最后来说说怎么用call来实现对象继承&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;parents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Hayden'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;22&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;child&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;parents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// {name: 'Hayden', age: 22}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Fri, 03 Nov 2017 20:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2017/11/03/apply&&call/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/03/apply&&call/</guid>
+        
+        <category>前端开发</category>
+        
+        <category>JavaScript</category>
+        
+        
+      </item>
     
       <item>
         <title>饿了么的 PWA 升级实践</title>
@@ -1559,198 +1669,6 @@ React     : 直接用 JS 就好啦 :)
         <category>iOS</category>
         
         <category>译文</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>「知乎」设计师如何学习前端？</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;这篇文章转载自&lt;a href=&quot;https://www.zhihu.com/question/21921588/answer/69680480&quot;&gt;我在知乎上的回答&lt;/a&gt;，也被刊登于&lt;a href=&quot;http://www.uisdc.com/head-first-front-end&quot;&gt;优秀网页设计&lt;/a&gt;等多个网站上 ;)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;笔者的经历在知乎就可以看到，大学专业是数字媒体艺术，大一实习过动效设计师，大二拿到了人生第一个大公司 offer 是阿里的交互设计，后来转岗到淘宝旅行的前端团队，现在在微信电影票做前端研发。
-&lt;br /&gt;
-&lt;br /&gt;也是走过了不少野路子，不过还好有小右哥 &lt;a data-hash=&quot;cfdec6226ece879d2571fbc274372e9f&quot; href=&quot;//www.zhihu.com/people/cfdec6226ece879d2571fbc274372e9f&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@尤雨溪&quot; data-tip=&quot;p$b$cfdec6226ece879d2571fbc274372e9f&quot;&gt;@尤雨溪&lt;/a&gt; 这样艺术/设计转前端的大神在前面做典范，也证明这条路是玩的通的 ;)
-&lt;br /&gt;
-&lt;br /&gt;接下来就说说自己的学习建议吧，一个小教程，也是自己走过的流程，仅供参考哈
-&lt;br /&gt;
-&lt;br /&gt;————
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;背景篇&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;在这个时代学习新东西，一定要善于使用 Bing/Google 等搜索引擎…网络上的资源非常丰富，自学能力也尤为重要，尤其是对于学习技术！
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;入门篇（HTML/CSS）&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;说起设计师希望学前端的初衷，大概还是因为各种华丽的网页特效/交互太过吸引人，这种感觉大概就是：“Hey，我的设计可以做成网页访问了呢！”
-&lt;br /&gt;好在，“展示”对于前端技术来说反而是最简单的部分。所以，放下你对“编程”两个字的恐惧，&lt;b&gt;从“称不上是编程语言”的 HTML/CSS 开始，先做点有成就感的东西出来吧！&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;对于设计师来说，最有成就感的一定是“可以看到的东西”，而 HTML/CSS 正是用来干这个的，HTML 就是一堆非常简单的标签，而 CSS 无非就是把你画画的流程用&lt;b&gt;英语&lt;/b&gt;按一定的格式写出来而已：
-&lt;br /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt; p is paragraph! &lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;style&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;}&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;是不是非常容易，就跟读英语一样！
-&lt;br /&gt;接下来，你就需要开始自学啦，比如常用 HTML 标签的意思，各种 CSS 的属性，还有 CSS 的盒模型、优先级、选择器……放心，它们都很容易；能玩得转 PS/AI/Flash/Axure/AE/Sketch 的设计师们，学这个洒洒水啦
-&lt;br /&gt;
-&lt;br /&gt;推荐几个资源：
-&lt;br /&gt;&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt;&lt;a href=&quot;//link.zhihu.com/?target=http%3A//www.w3school.com.cn/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;w3school 在线教程&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; (中文，一个很 Low 但是又很好的入门学习网站）
-        &lt;br /&gt;
-    &lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;//link.zhihu.com/?target=http%3A//www.codecademy.com/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;Learn to code&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; (Codecademy，如果你英文 OK，&lt;b&gt;强烈建议&lt;/b&gt;你使用它进行交互式的学习！里面从 HTML/CSS 到搭建网站的课程都有，免费，生动直观）
-        &lt;br /&gt;
-    &lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;br /&gt;&lt;b&gt;这个阶段的练习主要是“临摹”：用代码画出你想画的网站，越多越好。&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;对于书，我&lt;b&gt;非常不推荐&lt;/b&gt;上来就去看各种厚厚的入门/指南书，没必要！这一个阶段应该快速上手，培养兴趣，培养成就感。先做出可以看的东西再说，掌握常用的 HTML/CSS 就够用了
-&lt;br /&gt;
-&lt;br /&gt;如果完成的好，这个阶段过后你大概就可以写出一些简单又好看的“静态网页”了，比如这个作品集/简历：&lt;a href=&quot;//link.zhihu.com/?target=http%3A//huangxuan.me/portfolio/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;Portfolio - 黄玄的博客&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; （好久没更新了…丢人现眼）
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;入门篇（JavaScript/jQuery）&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;想要在网页上实现一些交互效果，比如轮播图、点击按钮后播放动画？那你就必须要开始学习 JavaScript 了！JavaScript 是一门完整、强大并且非常热门的编程语言，你在浏览器里看到的所有交互或者高级功能都是由它在背后支撑的！
-&lt;br /&gt;
-&lt;br /&gt;举个小栗子：
-&lt;br /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello World!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;就这一行，就可以在浏览器里弹出 Hello World 啦！
-&lt;br /&gt;
-&lt;br /&gt;在了解一些基础的 JavaScript 概念（变量、函数、基本类型）后，我们可以直接去学习 jQuery，你不用知道它具体是什么（它是一个 JavaScript 代码库），你只要知道它可以显著地降低你编写交互的难度就好了：
-&lt;br /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.className'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello jQuery&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;通过 jQuery，我们可以继续使用在 CSS 中学到的“选择器”
-&lt;br /&gt;
-&lt;br /&gt;对于没有编程基础的人来说，想要完全掌握它们两并不容易。作为设计师，很多时候我们可以先不必深究它们的原理，而是尝试直接应用它！这样成就感会来得很快，并且你可以通过实际应用更加理解 JavaScript 是用来做什么的。
-&lt;br /&gt;
-&lt;br /&gt;我仍然推荐你使用 &lt;a href=&quot;http://www.w3school.com.cn/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;w3school 在线教程&lt;/a&gt; 与 &lt;a href=&quot;//www.codecademy.com/&quot; target=&quot;_blank&quot;&gt;http://www.codecademy.com/&lt;/a&gt; 进行学习。另外，你可以看一看诸如《&lt;a href=&quot;//link.zhihu.com/?target=http%3A//book.douban.com/subject/10792216/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;锋利的jQuery (豆瓣)&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt;》 这一类非常实用的书籍，可以让你很快上手做出一些简单的效果来！
-&lt;br /&gt;
-&lt;br /&gt;如果学习得顺利，你还可以尝试使用各种丰富的 jQuery 插件，你会发现写出支持用户交互的网站也没有那么困难～很多看上去很复杂的功能（比如轮播图、灯箱、下拉菜单），搜一搜然后看看文档（教程）、改改示例代码就好了。
-&lt;br /&gt;
-&lt;br /&gt;比如说，配合 &lt;a href=&quot;//link.zhihu.com/?target=https%3A//github.com/Huxpro/jquery.HSlider&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;Huxpro/jquery.HSlider · GitHub&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; 这样的轮播图插件，你可以很轻松的写出 &lt;a href=&quot;//link.zhihu.com/?target=http%3A//huangxuan.me/jquery.HSlider/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;HSlider | Demo&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; 这样的网页相册或者 &lt;a href=&quot;//link.zhihu.com/?target=http%3A//huangxuan.me/jquery.HSlider/demo-weather-app/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;HSlider | Weather&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; 这样的手机端 App 原型～
-&lt;br /&gt;
-&lt;br /&gt;最后，我想推荐下 &lt;a href=&quot;//link.zhihu.com/?target=http%3A//getbootstrap.com/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;Bootstrap · The world’s most popular mobile-first and respons&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; ，这是世界上最知名的前端 UI 框架之一，提供了大量 CSS 样式与 jQuery 插件。它非常容易学习并且中英文教程都非常健全，你并不需要理解它背后的工作原理就能很好的使用它，让你快速达到“可以建站的水平”。有余力的话，你不但可以学习如何使用它，还可以学习它背后的设计思想。
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;转职方向一：前端重构 （Web Rebuild）&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;业内通常把专精 HTML/CSS 的前端从业人员称为重构，而对于注重视觉效果的设计师来说，在掌握基本的 HTML/CSS 后，就可以朝着这个方向发展了。
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;到了这个阶段，你不但要知道怎么写页面，还要知道它们都是为什么，并且知道怎么做更好。这对你理解 Web 世界非常有帮助，并且能帮助你做出更“系统化”的设计。&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;CSS 的学问很多，你需要开始理解文档流、浮动流等各种定位的方式与原理，理解 CSS 的继承复用思想、理解浏览器的差异、兼容、优雅降级……这里强烈推荐一本书：《&lt;a href=&quot;//link.zhihu.com/?target=http%3A//book.douban.com/subject/4736167/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;精通CSS（第2版） (豆瓣)&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt;》，虽然前端技术突飞猛进，但这本书的思想永远不会过时。
-&lt;br /&gt;
-&lt;br /&gt;HTML 方面，要开始注重语义化、可访问性与结构的合理，你要开始学习“结构与样式的分离”，这里有一本神书将这种分离做到了极致：《&lt;a href=&quot;//link.zhihu.com/?target=http%3A//book.douban.com/subject/2052176/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;CSS禅意花园 (豆瓣)&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt;》
-&lt;br /&gt;
-&lt;br /&gt;另外，各种炫酷屌的 CSS 3 属性你一定会喜欢：你可以用媒体查询做响应式网页设计，你可以用 transiton 和 animation 做补间动画与关键帧动画，用 transform 做缩放、旋转、3D变换，还有圆角、渐变、阴影、弹性盒！样样都是设计师的神器！
-&lt;br /&gt;
-&lt;br /&gt;如果你还掌握了 &lt;b&gt;入门篇（JavaScript/jQuery）&lt;/b&gt;的知识，那么&lt;b&gt;恭喜你！你已经可以做出很多有趣的网页了！&lt;/b&gt;很多 minisite 或者微信上的“H5” 小广告，这个程度的你已经可以轻松完成了！
-&lt;br /&gt;
-&lt;br /&gt;配合上你的设计功力，你可以开始尝试创作一些好玩的东西，比如这种富含交互和动画的网站 &lt;a href=&quot;//link.zhihu.com/?target=http%3A//huangxuan.me/senova/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;绅宝 SENOVA&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; ，它仍然是基于 &lt;a href=&quot;//link.zhihu.com/?target=https%3A//github.com/Huxpro/jquery.HSlider&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;Huxpro/jquery.HSlider · GitHub&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; 实现的！或者给自己做个小小的个人网站试试
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;转职方向二：前端工程师（Front-end Engineer）&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;如果你觉得上述的这些都还满足不了你，你渴望做出更多了不起的交互，甚至你已经喜欢上了编程，想要转行做工程师，或者成为一名全栈设计师，那么你可以朝着这个方向继续发展！
-&lt;br /&gt;
-&lt;br /&gt;这个阶段的最大难度，是你必须&lt;b&gt;学会像一名软件工程师一样思考&lt;/b&gt;。你需要踏踏实实学习编程语言，深入理解作用域、对象、类、封装、继承、面向对象编程、事件侦听、事件冒泡等一大堆编程概念，你还需要了解浏览器，学习 DOM、BOM、CSSOM 的 API，你甚至还需要学习一些网络原理，包括域名、URL、DNS、HTTP 请求都是什么…
-&lt;br /&gt;
-&lt;br /&gt;你可能会被这一大堆名词吓到。确实，想要搞定他们并不容易。但是，你要相信只要你肯花功夫它们也没有那么难，而更重要的是，如果你能拿下他们，你所收获的并不只是这些而已，而是真正跨过了一道大坎 —— &lt;b&gt;你的世界将因此打开， 你看待世界的方式将因此改变&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;对于这个阶段，你可以继续在 &lt;a href=&quot;//www.codecademy.com/&quot; target=&quot;_blank&quot;&gt;http://www.codecademy.com/&lt;/a&gt; 上学习，但是 w3school 已经不够用了，遇到不会的语法，我推荐你查阅 &lt;a href=&quot;//link.zhihu.com/?target=https%3A//developer.mozilla.org/zh-CN/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;Mozilla 开发者网络&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt;，这是少数中英文都有的非常专业且友好的网站。
-&lt;br /&gt;
-&lt;br /&gt;同时，你可能需要看一些书本来帮助你学习 JavaScript ：
-&lt;br /&gt;&lt;/p&gt;
-&lt;ul&gt;
-    &lt;li&gt; 《&lt;a href=&quot;//link.zhihu.com/?target=http%3A//book.douban.com/subject/10546125/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;JavaScript高级程序设计（第3版） (豆瓣)&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; 》或 《&lt;a href=&quot;//link.zhihu.com/?target=http%3A//book.douban.com/subject/2228378/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;JavaScript权威指南 (豆瓣)&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt;》，大而全的书只需要一本就够了&lt;/li&gt;
-    &lt;li&gt;如果上面这本你觉得太难，你可以先看 《&lt;a href=&quot;//link.zhihu.com/?target=http%3A//book.douban.com/subject/6038371/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;JavaScript DOM编程艺术 （第2版） (豆瓣)&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt;》来过渡一下，这本书比较容易，它会教给你 “优雅降级、渐进增强”的优秀思想&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;br /&gt;如果你能顺利得渡过了这个阶段，我想你已经能做出很多令你自豪的网站了！试着向身边的工程师朋友询问如何购买域名、配置简单的静态服务器，或者搜搜“Github Pages”，然后把你的作品挂在网络上让大家欣赏吧！
-&lt;br /&gt;
-&lt;br /&gt;你还可以试着用 JavaScript 写写小游戏，这不但能锻炼你的编程水平还非常有趣～比如这是我刚学 JS 不久后 hack 一晚的产物 —— 用 DOM 实现的打飞机：&lt;a href=&quot;//link.zhihu.com/?target=http%3A//huangxuan.me/aircraft&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;Hux - Aircraft&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt; （不支持手机）
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;入行篇&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;如果你能完成上述所有的学习，你已经是一名非常出色的前端学徒了！对于只是想要丰富技能的设计师或者产品经理来说，接下来的内容可能会让你感到不适 ;(
-&lt;br /&gt;但如果你铁了心想要真正入行进入大公司从事专职前端开发的工作，那么你可以接着往下看：
-&lt;br /&gt;
-&lt;br /&gt;近几年的前端技术发展迅猛，前端工程师早已不是切切图写写页面做点特效就完事的职位，你需要具备相当完善的工程师素质与计算机知识，成为一名真正的工程师。
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要非常了解 JavaScript 这门语言&lt;/b&gt;，包括 闭包、IIFE、this、prototype 及一些底层实现（ES、VO、AO）、熟悉常用的设计模式与 JavaScript 范式（比如实现类与私有属性）。另外，新的 ES6 已经问世，包括 class, module, arrow function 等等
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要非常了解前端常用的网络及后端知识&lt;/b&gt;，包括 Ajax、JSON、HTTP 请求、GET/POST 差异、RESTful、URL hash/query、webSocket、常用的跨域方式（JSONP/CORS、HTTP 强缓存/协商缓存，以及如何利用 CDN 、静态网站/动态网站区别、服务器端渲染/前端渲染区别等等
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要学习使用进阶的 CSS&lt;/b&gt;，包括熟悉 CSS 3，使用 Scss/Less 等编译到 CSS 的语言，使用 autoprefixer 等 PostCSS 工具，了解 CSS 在 Scope/Namespace 上的缺陷，你还可以学习 CSS Modules、CSS in JS 这些有趣的新玩意
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要非常了解前端的模块化规范&lt;/b&gt;，可能在你学习到这里的时候，Require.js/AMD 已经再见了，但是 CommonJS 与 ES6 Modules 你必须要了解。（你可以观看我的分享《&lt;a href=&quot;//link.zhihu.com/?target=http%3A//huangxuan.me/js-module-7day/%23/&quot; class=&quot; wrap external&quot; target=&quot;_blank&quot; rel=&quot;nofollow noreferrer&quot;&gt;JavaScript Modularization Seven Day&lt;i class=&quot;icon-external&quot;&gt;&lt;/i&gt;&lt;/a&gt;》 来学习 JS 模块化的历史）
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要熟悉 Git 与 Shell 的使用&lt;/b&gt;，包括基于 git 的版本管理、分支管理与团队协作，包括简单的 Linux/Unix 命令、你要知道大部分程序员的工作可以通过 shell 更快更酷的完成，并且很多“软件”只能通过 shell 来使用。你还可以把你的代码放到 github 上与人分享，并且学习 github 上其他优秀的开源代码
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要熟悉并且习惯使用 Node&lt;/b&gt;，包括了解 npm、使用 Grunt/Gulp/Browserify/Webpack 优化你的工作流、对你的代码进行打包、混淆、压缩、发布，你还可以使用 Express/Koa 配合 MongoDB/Redis 涉足到后端领域，或者尝试用 Node 做后端渲染优化你的首屏体验
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要了解各种 HTML 5 的新 API&lt;/b&gt;，包括 &amp;lt;video&amp;gt;/&amp;lt;audio&amp;gt;，包括 Canvas，webGL、File API、App Cache、localStorage、IndexedDB、Drag &amp;amp; Drop、更高级的 DOM API、Fetch API 等等
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要学习 JavaScript 的单线程与异步编程方法&lt;/b&gt;，因为它们非常非常常用、包括 setTimeout/setInterval，回调与回调地狱、事件与event loop、还有 Promise 甚至 Async/Await
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要非常了解浏览器&lt;/b&gt;，包括主流浏览器的名称、内核与差异、包括私有属性与 -webkit- 等厂商前缀，你需要学习如何使用 Chrome DevTool，你需要了解浏览器渲染的 reflow/repaint 来避免 Jank 并进行有针对性的性能优化
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要专门学习 Mobile Web&lt;/b&gt;，因为移动互联网是趋势。包括 viewport、CSS pixel、 touch 事件、iOS/Android 浏览器的差异与兼容、移动端的性能优化、300ms delay 等等…你还需要知道 Hybrid 是什么，包括 Cordova/Phonegap，更复杂的比如和 iOS/Android 通信的机制，比如 URI Scheme 或者 JS Bridge
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要学习一些&lt;/b&gt;&lt;b&gt;非常火热的前端框架/库&lt;/b&gt;，他们不但能帮助你更快的进行开发、更重要的是他们背后所蕴含的思想。包括 Backbone、Angular、Vue、React、Polymer 等等、了解它们背后的双向数据绑定、单向数据流、MVC/MVVM/Flux 思想、Web Component 与组件化等等
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要学习如何构建 web 单页应用&lt;/b&gt;，这是 web 的未来，包括利用 history API 或者 hash 实现路由，包括基于 Ajax + 模版引擎或者其他技术的前端渲染、包括组织较为复杂的软件设计等等
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;我还建议你学习更多的计算机知识&lt;/b&gt;，它们能对你的代码能起到潜移默化的作用，包括简单的计算机体系结构、更广泛的编程知识（面向对象/函数式等）、栈、堆、数组、队列、哈希表、树、图等数据结构、时间复杂度与空间复杂度以及简单的算法等等
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要了解业内的大神并阅读它们的博客/知乎/微博&lt;/b&gt;，比如 &lt;a data-hash=&quot;cfdec6226ece879d2571fbc274372e9f&quot; href=&quot;//www.zhihu.com/people/cfdec6226ece879d2571fbc274372e9f&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@尤雨溪&quot; data-tip=&quot;p$b$cfdec6226ece879d2571fbc274372e9f&quot;&gt;@尤雨溪&lt;/a&gt;&lt;a data-hash=&quot;3ec3b166992a5a90a1083945d2490d38&quot; href=&quot;//www.zhihu.com/people/3ec3b166992a5a90a1083945d2490d38&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@贺师俊&quot; data-tip=&quot;p$b$3ec3b166992a5a90a1083945d2490d38&quot;&gt;@贺师俊&lt;/a&gt;&lt;a data-hash=&quot;3212f9044005e9306aab1b61e74e7ae6&quot; href=&quot;//www.zhihu.com/people/3212f9044005e9306aab1b61e74e7ae6&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@张云龙&quot; data-tip=&quot;p$b$3212f9044005e9306aab1b61e74e7ae6&quot;&gt;@张云龙&lt;/a&gt;&lt;a data-hash=&quot;c5198d4e9c0145aee04dd53cc6590edd&quot; href=&quot;//www.zhihu.com/people/c5198d4e9c0145aee04dd53cc6590edd&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@徐飞&quot; data-tip=&quot;p$b$c5198d4e9c0145aee04dd53cc6590edd&quot;&gt;@徐飞&lt;/a&gt;&lt;a data-hash=&quot;20fdd386a6e59d178b8fe14e2863cb40&quot; href=&quot;//www.zhihu.com/people/20fdd386a6e59d178b8fe14e2863cb40&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@张克军&quot; data-tip=&quot;p$b$20fdd386a6e59d178b8fe14e2863cb40&quot;&gt;@张克军&lt;/a&gt;&lt;a data-hash=&quot;c11336b8607d86bc9090bed90757a34c&quot; href=&quot;//www.zhihu.com/people/c11336b8607d86bc9090bed90757a34c&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@玉伯&quot; data-tip=&quot;p$b$c11336b8607d86bc9090bed90757a34c&quot;&gt;@玉伯&lt;/a&gt;&lt;a data-hash=&quot;64458d15a75902cd0425732b7b757705&quot; href=&quot;//www.zhihu.com/people/64458d15a75902cd0425732b7b757705&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@拔赤&quot; data-tip=&quot;p$b$64458d15a75902cd0425732b7b757705&quot;&gt;@拔赤&lt;/a&gt;&lt;a data-hash=&quot;0d9b98af12015c94cff646a6fc0773b5&quot; href=&quot;//www.zhihu.com/people/0d9b98af12015c94cff646a6fc0773b5&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@寸志&quot; data-tip=&quot;p$b$0d9b98af12015c94cff646a6fc0773b5&quot;&gt;@寸志&lt;/a&gt;&lt;a data-hash=&quot;790dccce26904cdcd11b0fad3bac37b7&quot; href=&quot;//www.zhihu.com/people/790dccce26904cdcd11b0fad3bac37b7&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@题叶&quot; data-tip=&quot;p$b$790dccce26904cdcd11b0fad3bac37b7&quot;&gt;@题叶&lt;/a&gt;&lt;a data-hash=&quot;85de6407f2219137df29b4249b91cfd5&quot; href=&quot;//www.zhihu.com/people/85de6407f2219137df29b4249b91cfd5&quot; class=&quot;member_mention&quot; data-editable=&quot;true&quot; data-title=&quot;@郭达峰&quot; data-tip=&quot;p$b$85de6407f2219137df29b4249b91cfd5&quot;&gt;@郭达峰&lt;/a&gt; 等等等等，很多思想和新东西只有从他们身上才能学到。我还推荐你多参加技术交流会，多认识一些可以一起学习的小伙伴，你们可以互相交流并且一起成长
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;你需要具备很强的自学能力、对技术有热情并且不断跟进&lt;/b&gt;。因为 JavaScript/前端的社区非常非常活跃，有太多的新东西需要你自己来发现与学习：比如 Universal JavaScript、Isomorphic JavaScript、前端测试、HTML5 页游、WebRTC、WebSocket、CSS 4、SVG、HTTP/2、ES 7、React Native、Babel、TypeScript、Electron 等等等等…
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;虽然一下扯得有点多，但这些确实就是你未来将会遇到的。你并不需要全部掌握它们，但是却多多益善；你也可以专精在某几个方面，这已经足以让你成为非常专业的前端工程师。
-&lt;br /&gt;
-&lt;br /&gt;&lt;b&gt;所以，如果你自认为涵盖了上述要求的 40%，欢迎简历发 huangxuan@wepiao.com ，实习/全职皆可～&lt;/b&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;咦，这个结尾怪怪的……&lt;/p&gt;
-
-</description>
-        <pubDate>Wed, 28 Oct 2015 20:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2015/10/28/how-designer-learn-fe/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/10/28/how-designer-learn-fe/</guid>
-        
-        <category>知乎</category>
-        
-        <category>前端开发</category>
-        
-        <category>UX Design</category>
         
         
       </item>

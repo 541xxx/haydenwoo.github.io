@@ -10,7 +10,7 @@
     <meta name="keywords"  content="吴思怡, H哎呀的呢, Hayden, 鬼栈, huxpro, @huxpro, 吴思怡的博客, Hayden Blog, 博客, 个人网站, 互联网, 前端, 设计, 产品">
     <meta name="theme-color" content="#000000">
     
-    <title>Hello 2015 - 吴思怡的博客 | Wu Si Yi Blog</title>
+    <title>深入浅出apply、cal - 吴思怡的博客 | Wu Si Yi Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2015/01/29/hello-2015/">
+    <link rel="canonical" href="http://localhost:4000/2017/11/03/apply&&call/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -155,15 +155,22 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-2015.jpg" width="0" height="0"> -->
+<!-- <img src="/img/in-post/post-eleme-pwa/eleme-at-io.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-2015.jpg')
+        background-image: url('/img/in-post/post-eleme-pwa/eleme-at-io.jpg')
     }
 
+    
+    header.intro-header .header-mask{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(0,0,0, 0.3);
+    }
     
 </style>
 <header class="intro-header" >
@@ -174,15 +181,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#生活" title="生活">生活</a>
+                        <a class="tag" href="/tags/#前端开发" title="前端开发">前端开发</a>
+                        
+                        <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
                         
                     </div>
-                    <h1>Hello 2015</h1>
+                    <h1>深入浅出apply、cal</h1>
                     
                     
-                    <h2 class="subheading"> "Hello World, Hello Blog"</h2>
+                    <h2 class="subheading">apply and call</h2>
                     
-                    <span class="meta">Posted by Hux on January 29, 2015</span>
+                    <span class="meta">Posted by Hayden on November 3, 2017</span>
                 </div>
             </div>
         </div>
@@ -201,72 +210,101 @@
                 post-container">
 
 				<blockquote>
-  <p>“Yeah It’s on. ”</p>
+  <p>网上关于这几个属性的文章真是数不胜数，以至于我每次使用都已经养成了习惯去查阅相关博客内容，几乎每次要用的时候对这几个东西的意识都会有点朦胧，所以还是整理一下吧</p>
 </blockquote>
 
-<h2 id="前言">前言</h2>
+<h2 id="applycall">apply、call</h2>
 
-<p>Hux 的 Blog 就这么开通了。</p>
+<p>JavaScript函数存在「定义时上下文」和「运行时上下文」以及「上下文是可以改变的」这样的概念。</p>
 
-<p><a href="#build">跳过废话，直接看技术实现 </a></p>
+<p>在javascript中，这两个属性都是为了改变函数内部this指向问题而存在的。</p>
 
-<p>2015 年，Hux 总算有个地方可以好好写点东西了。</p>
+<p>引用知乎上一个大牛的回答</p>
 
-<p>作为一个程序员， Blog 这种轮子要是挂在大众博客程序上就太没意思了。一是觉得大部分 Blog 服务都太丑，二是觉得不能随便定制不好玩。之前因为太懒没有折腾，结果就一直连个写 Blog 的地儿都没有。</p>
+<p>在javascript OOP(面向对象) 中，我们总是会这样定义</p>
 
-<p>在玩了一段时间知乎之后，答题的快感又激起了我开博客的冲动。之前的<a href="http://huangxuan.me/portfolio">个人网站</a>是作品集形式的（现在集成进来了），并不适合用来写博文，一不做二不休，花一天搞一个吧！</p>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">cat</span> <span class="p">()</span> <span class="p">{</span>
+<span class="p">}</span>
+<span class="nx">cat</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">food</span><span class="p">:</span> <span class="s1">'fish'</span><span class="p">,</span>
+  <span class="na">say</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'I love'</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">food</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 
-<p id="build"></p>
-<hr />
+<span class="kd">var</span> <span class="nx">blackCat</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cat</span><span class="p">();</span>
+<span class="nx">blackCat</span><span class="p">.</span><span class="nx">say</span><span class="p">();</span>
 
-<h2 id="正文">正文</h2>
+</code></pre>
+</div>
 
-<p>接下来说说搭建这个博客的技术细节。</p>
+<p>但是如果我们有一个对象whiteDog= {food : “bone”} ,我们不想对它重新定义 say 方法，那么我们可以通过 call 或 apply 用 cat 的 say 方法：</p>
 
-<p>正好之前就有关注过 <a href="https://pages.github.com/">GitHub Pages</a> + <a href="http://jekyllrb.com/">Jekyll</a> 快速 Building Blog 的技术方案，非常轻松时尚。</p>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code>  <span class="kd">var</span> <span class="nx">whiteDog</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">food</span><span class="p">:</span> <span class="s1">'bone'</span><span class="p">;</span>
+  <span class="p">}</span>
 
-<p>其优点非常明显：</p>
+  <span class="nx">blackCat</span><span class="p">.</span><span class="nx">say</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">whiteDog</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<ul>
-  <li><strong>Markdown</strong> 带来的优雅写作体验</li>
-  <li>非常熟悉的 Git workflow ，<strong>Git Commit 即 Blog Post</strong></li>
-  <li>利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机
-    <ul>
-      <li>如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了</li>
-    </ul>
-  </li>
-  <li>Jekyll 的自定制非常容易，基本就是个模版引擎</li>
-</ul>
+<p>当一个object下没有某个方法，但是其他的有，我们就可以通过apply 和 call用其他对象的方法来操作，说说前段时间犯的一个小错误</p>
 
-<p>本来觉得最大的缺点可能是 GitHub 在国内访问起来太慢，所以第二天一起床就到 GitCafe(Chinese GitHub Copy，现在被 Coding 收购了) 迁移了一个<a href="http://huxpro.coding.me">镜像</a>出来，结果还是巨慢。</p>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">childs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">'.item'</span><span class="p">);</span> 
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">childs</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="c1">// 假设长度是是3</span>
 
-<p>哥哥可是个前端好嘛！ 果断开 Chrome DevTool 查了下网络请求，原来是 <strong>pending 在了 Google Fonts</strong> 上，页面渲染一直被阻塞到请求超时为止，难怪这么慢。<br />
-忍痛割爱，只好把 Web Fonts 去了（反正超时看到的也只能是 fallback ），果然一下就正常了，而且 GitHub 和 GitCafe 对比并没有感受到明显的速度差异，虽然 github 的 ping 值明显要高一些，达到了 300ms，于是用 DNSPOD 优化了一下速度。</p>
+<span class="nx">childs</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//直接报错 TypeError: b.forEach is not a function</span>
+<span class="p">});</span>
 
-<hr />
+</code></pre>
+</div>
+<p>为什么会报错呢？当时太年轻还不知道有伪数组这一说，殊不知上面获取的看似是数组的玩意儿只有数组里面的length这一个属性，其他的比如push、 pop、shift 一概没有然后就有了下面的写法</p>
 
-<p>配置的过程中也没遇到什么坑，基本就是 Git 的流程，相当顺手</p>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">childs</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">childs</span><span class="p">);</span> <span class="c1">// 让childs可以用Array里的的所有方法</span>
+</code></pre>
+</div>
+<p>这样再forEach就不会报错了</p>
 
-<p>大的 Jekyll 主题上直接 fork 了 Clean Blog（这个主题也相当有名，就不多赘述了。唯一的缺点大概就是没有标签支持，于是我给它补上了。）</p>
+<p><strong>apply 和 call 的区别</strong></p>
 
-<p>本地调试环境需要 <code class="highlighter-rouge">gem install jekyll</code>，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功</p>
+<p>两者的作用完全一样，只是接受参数的方式不太一样。例如，有一个函数</p>
 
-<p>Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了（平时更习惯 SCSS 些），<strong>不过其实我一直觉得 Bootstrap 在移动端的体验做得相当一般，比我在淘宝参与的团队 CSS 框架差多了……</strong>所以为了体验，也补了不少 CSS 进去</p>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">func</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">.</span> <span class="nx">c</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="nx">a</span><span class="o">+</span><span class="nx">b</span><span class="o">+</span><span class="nx">c</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p><strong>call</strong></p>
+<blockquote>
+  <p>fun.call(thisArg, arg1, arg2, …)</p>
+</blockquote>
 
-<p>最后就进入了耗时反而最长的<strong>做图、写字</strong>阶段，也算是进入了<strong>写博客</strong>的正轨，因为是类似 Hack Day 的方式去搭这个站的，所以折腾折腾着大半夜就过去了。</p>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="nx">func</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</code></pre>
+</div>
+<p><strong>apply</strong></p>
+<blockquote>
+  <p>fun.apply(thisArg, [argsArray])</p>
+</blockquote>
 
-<p>第二天考虑中文字体的渲染，fork 了 <a href="http://www.typeisbeautiful.com/">Type is Beautiful</a> 的 <code class="highlighter-rouge">font</code> CSS，调整了字号，适配了 Win 的渣渲染，中英文混排效果好多了。</p>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="nx">func</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</code></pre>
+</div>
+<p>得出的结果都是一样的，都是6，看完了基本使用再来总结一下区别，apply只能接受两个参数，其中第二个参数必须是一个数组或者类数组，call则可以接受多个参数，这就是两个方法很重要的一个区别。</p>
 
-<h2 id="后记">后记</h2>
+<p><strong>最后来说说怎么用call来实现对象继承</strong></p>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">parents</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">'Hayden'</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="mi">22</span><span class="p">;</span>
+<span class="p">}</span>
 
-<p>回顾这个博客的诞生，纯粹是出于个人兴趣。在知乎相关问题上回答并获得一定的 star 后，我决定把这个博客主题当作一个小小的开源项目来维护。</p>
-
-<p>在经历 v1.0 - v1.5 的蜕变后，这个博客主题愈发完整，不但增加了诸多 UI 层的优化（opinionated）；在代码层面，更加丰富的配置项也使得这个主题拥有了更好的灵活性与可拓展性。而作为一个开源项目，我也积极的为其完善文档与解决 issue。</p>
-
-<p>如果你恰好逛到了这里，希望你也能喜欢这个博客主题。</p>
-
-<p>—— Hux 后记于 2015.10</p>
-
+<span class="kd">var</span> <span class="nx">child</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="nx">parents</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">child</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">child</span><span class="p">);</span> <span class="c1">// {name: 'Hayden', age: 22}</span>
+</code></pre>
+</div>
 
 
                 <hr style="visibility: hidden;">
@@ -274,19 +312,12 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2014/12/13/wechat-block-kuaidi/" data-toggle="tooltip" data-placement="top" title="「知乎」如何看待微信屏蔽快的打车事件？">
+                        <a href="/2017/07/12/upgrading-eleme-to-pwa/" data-toggle="tooltip" data-placement="top" title="饿了么的 PWA 升级实践">
                         Previous<br>
-                        <span>「知乎」如何看待微信屏蔽快的打车事件？</span>
+                        <span>饿了么的 PWA 升级实践</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2015/03/10/apple-event-2015/" data-toggle="tooltip" data-placement="top" title="「知乎」如何评价 2015 年 3 月 9 日 Apple 春季发布会？">
-                        Next<br>
-                        <span>「知乎」如何评价 2015 年 3 月 9 日 Apple 春季发布会？</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -359,7 +390,7 @@
                             
         				
                             
-                				<a href="/tags/#前端开发" title="前端开发" rel="13">
+                				<a href="/tags/#前端开发" title="前端开发" rel="14">
                                     前端开发
                                 </a>
                             
@@ -367,12 +398,6 @@
                             
                 				<a href="/tags/#职业病" title="职业病" rel="3">
                                     职业病
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#生活" title="生活" rel="2">
-                                    生活
                                 </a>
                             
         				
@@ -411,7 +436,9 @@
                             
         				
                             
-                				<a href="/tags/#JavaScript" title="JavaScript" rel="10">
+        				
+                            
+                				<a href="/tags/#JavaScript" title="JavaScript" rel="11">
                                     JavaScript
                                 </a>
                             
@@ -488,8 +515,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "hux";
-    var disqus_identifier = "/2015/01/29/hello-2015";
-    var disqus_url = "http://localhost:4000/2015/01/29/hello-2015/";
+    var disqus_identifier = "/2017/11/03/apply&&call";
+    var disqus_url = "http://localhost:4000/2017/11/03/apply&&call/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
