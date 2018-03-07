@@ -73,7 +73,7 @@ childs = Array.prototype.slice.call(childs); // 让childs可以用Array里的的
 
 ```js
 function func(a, b. c) {
-  alert(a+b+c);
+  alert(a + b + c);
 }
 ```
 **call**
@@ -88,7 +88,7 @@ func.call(obj, 1,2,3);
 
 ```js
 var obj = {};
-func.apply(obj, 1,2,3);
+func.apply(obj,[1,2,3]);
 ```
 得出的结果都是一样的，都是6，看完了基本使用再来总结一下区别，apply只能接受两个参数，其中第二个参数必须是一个数组或者类数组，call则可以接受多个参数，这就是两个方法很重要的一个区别。
 
