@@ -1,21 +1,21 @@
 # Site settings
-title: Hayden Blog
+title: It's Me
 SEOTitle: 吴思怡的博客 | Wu Si Yi Blog
 header-img: img/home-bg.jpg
 email: huxpro@gmail.com
 description: "关于前端与设计、黑客与画家 | 吴思怡，Web & Mobile Lover，Front-End Engineer，UX Designer | 这里是 @Hayden 的个人博客，与你一起发现更大的世界。"
 keyword: "吴思怡, H哎呀的呢, Hayden, 鬼栈, huxpro, @huxpro, 吴思怡的博客, Hayden Blog, 博客, 个人网站, 互联网, 前端, 设计, 产品"
-url: "http://haydenwoo.top"              # your host, for absolute URL
+url: "http://haydenwoo.com"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 
 
 # SNS settings
 RSS: false
-weibo_username:     huxpro
-zhihu_username:     huxpro
-github_username:    huxpro
-twitter_username:   huxpro
+weibo_username:     u/3161733282    
+# zhihu_username:     huxpro
+github_username:    haydenwoo
+# twitter_username:   huxpro
 #facebook_username:  huxpro
 # linkedin_username:  firstname-lastname-idxxxx
 
@@ -68,7 +68,7 @@ ga_domain: haydenwoo.com
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "写写代码，做做设计，<br>离开世界之前，一切都是过程"
-sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: /img/avatar.jpeg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
