@@ -68,12 +68,10 @@ border-radius(n)
 
 ```css 
 $primary-color = #000 // 定义主题颜色 
-$danger-color = #000
-$warn-color = #000
-$warn-btn-color = $warn-color
-$success-btn-color = #000
-$font-size-primary 14px
-$font-size-s $font-size-primary * 0.7
+$danger-color = #f00
+$warn-color = #402345
+$font-size-primary = 14px
+$font-size-s = $font-size-primary =  * 0.7
 
 ```
 调用
@@ -219,6 +217,31 @@ module: {
 }
 ```
 这样编译出来的class就会变成： 路径 + 文件名 + class名 + hash
+
+
+### styled-components 
+因为比较简单，直接上代码吧 
+
+代码示例用的是vue所以使用的是**vue-styled-components**，**styled-components** 支持的是React语法，使用方法都差不多。
+```js
+    import styled from 'vue-styled-components';
+
+    // 创建一个Title组件
+    const StyledTitle = styled.h1`
+        font-size: 1.5em;
+        text-align: center;
+        color: palevioletred;
+    `;
+
+    // 使用的时候上面的样式就已经直接带过来啦
+    <StyledTitle>Hello World, this is my first styled component!</StyledTitle>
+```
+Is it pretty easy?
+
+当然，**styled-components**的功能远不止上面的example，有兴趣的童鞋可以去[官方仓库地址](https://github.com/styled-components/vue-styled-components)查看一下具体的Api。
+
+简而言之就是 **CSS IN JS**， 使我们可以更加灵活和方便的使用Js来定义处理我们的样式。
+
 
 
 ### 最后
